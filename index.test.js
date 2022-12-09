@@ -290,14 +290,53 @@ tap.test('#fromBer', t => {
   t.end()
 })
 
-tap.test('#isAttribute', async t => {
-  const isA = Attribute.isAttribute
-  t.notOk(isA(null))
-  t.notOk(isA('asdf'))
-  t.ok(isA(new Attribute({
-    type: 'foobar',
-    values: ['asdf']
-  })))
+tap.test('#isAttribute', t => {
+  t.test('rejects non-object', async t => {
+    t.equal(Attribute.isAttribute(42), false)
+  })
+
+  t.test('accepts Attribute instances', async t => {
+    const input = new Attribute({
+      type: 'cn',
+      values: ['foo']
+    })
+    t.equal(Attribute.isAttribute(input), true)
+  })
+
+  t.test('accepts attribute-like objects', async t => {
+    const input = {
+      type: 'cn',
+      values: [
+        'foo',
+        Buffer.from('bar')
+      ]
+    }
+    t.equal(Attribute.isAttribute(input), true)
+  })
+
+  t.test('rejects non-attribute-like objects', async t => {
+    let input = {
+      foo: 'foo',
+      values: 'bar'
+    }
+    t.equal(Attribute.isAttribute(input), false)
+
+    input = {
+      type: 'cn',
+      values: [42]
+    }
+    t.equal(Attribute.isAttribute(input), false)
+  })
+
+  // const isA = Attribute.isAttribute
+  // t.notOk(isA(null))
+  // t.notOk(isA('asdf'))
+  // t.ok(isA(new Attribute({
+  //   type: 'foobar',
+  //   values: ['asdf']
+  // })))
+
+  t.end()
 })
 
 tap.test('compare', async t => {

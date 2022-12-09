@@ -254,14 +254,36 @@ class Attribute {
   /**
    * Determine if an object represents an {@link Attribute}.
    *
-   * @param {object} item
+   * @param {object} attr The object to check. It can be an instance of
+   * {@link Attribute} or a plain JavaScript object that looks like an
+   * {@link Attribute} and can be passed to the constructor to create one.
    *
    * @returns {boolean}
    */
-  static isAttribute (item) {
-    // TODO: we might need to support a plain object that looks like
-    // an attribute object. The original code does.
-    return Object.prototype.toString.call(item) === '[object LdapAttribute]'
+  static isAttribute (attr) {
+    if (typeof attr !== 'object') {
+      return false
+    }
+
+    if (Object.prototype.toString.call(attr) === '[object LdapAttribute]') {
+      return true
+    }
+
+    const typeOk = typeof attr.type === 'string'
+    let valuesOk = Array.isArray(attr.values)
+    if (valuesOk === true) {
+      for (const val of attr.values) {
+        if (typeof val !== 'string' && Buffer.isBuffer(val) === false) {
+          valuesOk = false
+          break
+        }
+      }
+    }
+    if (typeOk === true && valuesOk === true) {
+      return true
+    }
+
+    return false
   }
 }
 
