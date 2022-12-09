@@ -71,6 +71,15 @@ class Attribute {
   }
 
   /**
+   * Set the attribute name.
+   *
+   * @param {string} name
+   */
+  set type (name) {
+    this.#type = name
+  }
+
+  /**
    * The set of attribute values as strings.
    *
    * @returns {string[]}

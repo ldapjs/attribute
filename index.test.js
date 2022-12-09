@@ -160,6 +160,21 @@ tap.test('.buffers', t => {
   t.end()
 })
 
+tap.test('.type', t => {
+  t.test('gets and sets', async t => {
+    const attr = new Attribute(({
+      type: 'foo',
+      values: ['bar']
+    }))
+
+    t.equal(attr.type, 'foo')
+    attr.type = 'bar'
+    t.equal(attr.type, 'bar')
+  })
+
+  t.end()
+})
+
 tap.test('toBer', async t => {
   t.test('renders type with values', async t => {
     const attr = new Attribute({
@@ -327,14 +342,6 @@ tap.test('#isAttribute', t => {
     }
     t.equal(Attribute.isAttribute(input), false)
   })
-
-  // const isA = Attribute.isAttribute
-  // t.notOk(isA(null))
-  // t.notOk(isA('asdf'))
-  // t.ok(isA(new Attribute({
-  //   type: 'foobar',
-  //   values: ['asdf']
-  // })))
 
   t.end()
 })
