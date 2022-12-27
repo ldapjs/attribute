@@ -181,9 +181,7 @@ tap.test('toBer', async t => {
       type: 'cn',
       values: ['foo', 'bar']
     })
-    const ber = attr.toBer()
-
-    const reader = new BerReader(ber.buffer)
+    const reader = attr.toBer()
     t.ok(reader.readSequence())
     t.equal(reader.readString(), 'cn')
     t.equal(reader.readSequence(LBER_SET), LBER_SET)
@@ -193,9 +191,7 @@ tap.test('toBer', async t => {
 
   t.test('renders type without values', async t => {
     const attr = new Attribute({ type: 'cn' })
-    const ber = attr.toBer()
-
-    const reader = new BerReader(ber.buffer)
+    const reader = attr.toBer()
     t.ok(reader.readSequence())
     t.equal(reader.readString(), 'cn')
     t.equal(reader.readSequence(LBER_SET), LBER_SET)

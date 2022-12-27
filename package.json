@@ -7,7 +7,7 @@
   "name": "@ldapjs/attribute",
   "homepage": "https://github.com/ldapjs/attribute",
   "description": "API for handling LDAP entry attributes",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0-rc.4",
   "license": "MIT",
   "repository": {
     "type": "git",

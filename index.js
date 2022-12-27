@@ -3,6 +3,7 @@
 const { core: { LBER_SET } } = require('@ldapjs/protocol')
 const {
   BerTypes,
+  BerReader,
   BerWriter
 } = require('@ldapjs/asn1')
 const warning = require('./lib/deprecations')
@@ -161,7 +162,7 @@ class Attribute {
    * Convert the {@link Attribute} instance to a {@link BerReader} capable of
    * being used in an LDAP message.
    *
-   * @returns {BerWriter}
+   * @returns {BerReader}
    */
   toBer () {
     const ber = new BerWriter()
@@ -182,7 +183,7 @@ class Attribute {
     ber.endSequence()
     ber.endSequence()
 
-    return ber
+    return new BerReader(ber.buffer)
   }
 
   toJSON () {
