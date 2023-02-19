@@ -301,6 +301,21 @@ tap.test('#fromBer', t => {
   t.end()
 })
 
+tap.test('#fromObject', t => {
+  t.test('handles basic object', async t => {
+    const attrs = Attribute.fromObject({
+      foo: ['foo'],
+      bar: 'bar',
+      'baz;binary': Buffer.from([0x00])
+    })
+    for (const attr of attrs) {
+      t.equal(Object.prototype.toString.call(attr), '[object LdapAttribute]')
+    }
+  })
+
+  t.end()
+})
+
 tap.test('#isAttribute', t => {
   t.test('rejects non-object', async t => {
     t.equal(Attribute.isAttribute(42), false)

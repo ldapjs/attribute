@@ -28,7 +28,7 @@ class Attribute {
     if (options.type && typeof (options.type) !== 'string') {
       throw TypeError('options.type must be a string')
     }
-    this.#type = options.type || ''
+    this.type = options.type || ''
 
     const values = options.values || options.vals || []
     if (options.vals) {
@@ -259,6 +259,35 @@ class Attribute {
       values
     })
     return result
+  }
+
+  /**
+   * Given an object of attribute types mapping to attribute values, construct
+   * a set of Attributes.
+   *
+   * @param {object} obj Each key is an attribute type, and each value is an
+   * attribute value or set of values.
+   *
+   * @returns {Attribute[]}
+   *
+   * @throws If an attribute cannot be constructed correctly.
+   */
+  static fromObject (obj) {
+    const attributes = []
+    for (const [key, value] of Object.entries(obj)) {
+      if (Array.isArray(value) === true) {
+        attributes.push(new Attribute({
+          type: key,
+          values: value
+        }))
+      } else {
+        attributes.push(new Attribute({
+          type: key,
+          values: [value]
+        }))
+      }
+    }
+    return attributes
   }
 
   /**
